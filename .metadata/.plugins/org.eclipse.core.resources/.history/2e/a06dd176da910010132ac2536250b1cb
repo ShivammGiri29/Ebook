@@ -1,0 +1,48 @@
+<footer class="text-white mt-4" style="background-color: #303f9f;">
+  <div class="container p-4">
+    <div class="row">
+      
+      <!-- About Section -->
+      <div class="col-md-4">
+        <h5>E-Book Management System</h5>
+        <p>
+          A platform to explore, buy, and manage e-books. 
+          Find the latest, new, and old books at one place.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-md-4">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="index.jsp" class="text-white text-decoration-none">Home</a></li>
+          <li><a href="all_recent_book.jsp" class="text-white text-decoration-none">Recent Books</a></li>
+          <li><a href="all_new_book.jsp" class="text-white text-decoration-none">New Books</a></li>
+          <li><a href="all_old_book.jsp" class="text-white text-decoration-none">Old Books</a></li>
+          <li><a href="helpline.jsp" class="text-white text-decoration-none">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact & Social -->
+      <div class="col-md-4">
+        <h5>Contact Us</h5>
+        <p><i class="fa-solid fa-envelope"></i> support@ebookapp.com</p>
+        <p><i class="fa-solid fa-phone"></i> +91 7039187180</p>
+        <p><i class="fa-solid fa-location-dot"></i> Mumbai, India</p>
+
+        <!-- Social Media Icons -->
+        <a href="#" class="text-white me-3"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" class="text-white me-3"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" class="text-white me-3"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="text-center p-2" style="background-color: #1a237e;">
+    <small>
+      <i class="fa-solid fa-copyright"></i> 
+      <%= java.time.Year.now() %> | Design & Developed by <b>Abhay Singh</b>
+    </small>
+  </div>
+</footer>

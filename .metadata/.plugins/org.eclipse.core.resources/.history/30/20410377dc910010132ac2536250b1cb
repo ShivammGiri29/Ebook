@@ -1,0 +1,153 @@
+<%@page import="com.entity.user"%>
+<%@page import="com.entity.BookDtls"%>
+<%@page import="java.util.List"%>
+<%@page import="com.DAO.BookDAOImpl"%>
+<%@page import="com.DB.DBConnect"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ebook Management System</title>
+<%@include file="all_component/allCss.jsp"%>
+<style>
+/* Hero Section */
+.back-img {
+    background: url("img/book.webp") center/cover no-repeat;
+    height: 60vh;
+    position: relative;
+}
+.back-img::after {
+    content: "";
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.6);
+}
+.ebook-title {
+    position: relative; 
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 0 10px #ff3c3c, 0 0 20px #ff3c3c, 0 0 40px #ff0000;
+    animation: glow 2s infinite alternate;
+    z-index: 1;
+}
+@keyframes glow {
+    from { text-shadow: 0 0 5px #ff3c3c, 0 0 10px #ff5e5e, 0 0 20px #ff7e7e; }
+    to { text-shadow: 0 0 20px #ff0000, 0 0 30px #ff3333, 0 0 60px #ff6666; }
+}
+
+/* Book Cards */
+.card-premium {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 12px;
+}
+.card-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Navbar Hover */
+.navbar a.nav-link:hover { color: #FBBF24 !important; }
+.navbar-brand:hover { color: #FFD700 !important; }
+</style>
+</head>
+<body style="background-color: #f7f7f7;">
+
+<%
+user u = (user) session.getAttribute("userobj");
+%>
+
+<%@include file="all_component/nav.jsp"%>
+
+<!-- Hero Section -->
+<div class="container-fluid back-img d-flex justify-content-center align-items-center">
+    <h1 class="ebook-title">Ebook Management System</h1>
+</div>
+
+<!-- Book Section Template -->
+<%
+BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
+List<BookDtls> recentBooks = dao.getRecentBook();
+List<BookDtls> newBooks = dao.getNewBook();
+List<BookDtls> oldBooks = dao.getOldBooks();
+%>
+
+<%-- Function to render book cards --%>
+<%! 
+public void renderBookCard(BookDtls b, user u, JspWriter out) throws java.io.IOException {
+    out.write("<div class='col-md-3 mb-4'>");
+    out.write("<div class='card card-premium shadow-sm text-center'>");
+    out.write("<img src='Book/" + b.getPhotoName() + "' class='card-img-top mx-auto mt-3' style='width:150px;height:200px;'>");
+    out.write("<div class='card-body'>");
+    out.write("<h5 class='card-title'>" + b.getBookName() + "</h5>");
+    out.write("<p class='card-text'>" + b.getAuthor() + "</p>");
+    out.write("<p class='text-muted'>Category: " + b.getBookCategory() + "</p>");
+    out.write("<div class='d-flex justify-content-center gap-2 mt-2'>");
+    
+    if(!b.getBookCategory().equals("Old")){
+        if(u==null){
+            out.write("<a href='login.jsp' class='btn btn-danger btn-sm'><i class='fa-solid fa-cart-plus'></i> Add Cart</a>");
+        } else {
+            out.write("<a href='cart?bid=" + b.getBookId() + "&uid=" + u.getId() + "' class='btn btn-danger btn-sm'><i class='fa-solid fa-cart-plus'></i> Add Cart</a>");
+        }
+    }
+    
+    out.write("<a href='view_books.jsp?bid=" + b.getBookId() + "' class='btn btn-success btn-sm'>View Details</a>");
+    out.write("<a href='#' class='btn btn-warning btn-sm'><i class='fa-solid fa-indian-rupee-sign'></i> " + b.getPrice() + "</a>");
+    
+    out.write("</div></div></div></div>");
+}
+%>
+
+<!-- Recent Books -->
+<div class="container my-5">
+    <h3 class="text-center mb-4">Recent Books</h3>
+    <div class="row">
+        <%
+        for(BookDtls b : recentBooks){
+            renderBookCard(b, u, out);
+        }
+        %>
+    </div>
+    <div class="text-center mt-3">
+        <a href="all_recent_book.jsp" class="btn btn-danger btn-sm text-white">View All</a>
+    </div>
+</div>
+
+<!-- New Books -->
+<div class="container my-5">
+    <h3 class="text-center mb-4">New Books</h3>
+    <div class="row">
+        <%
+        for(BookDtls b : newBooks){
+            renderBookCard(b, u, out);
+        }
+        %>
+    </div>
+    <div class="text-center mt-3">
+        <a href="all_new_book.jsp" class="btn btn-danger btn-sm text-white">View All</a>
+    </div>
+</div>
+
+<!-- Old Books -->
+<div class="container my-5">
+    <h3 class="text-center mb-4">Old Books</h3>
+    <div class="row">
+        <%
+        for(BookDtls b : oldBooks){
+            renderBookCard(b, u, out);
+        }
+        %>
+    </div>
+    <div class="text-center mt-3">
+        <a href="all_old_book.jsp" class="btn btn-danger btn-sm text-white">View All</a>
+    </div>
+</div>
+
+<%@include file="all_component/footer.jsp"%>
+</body>
+</html>

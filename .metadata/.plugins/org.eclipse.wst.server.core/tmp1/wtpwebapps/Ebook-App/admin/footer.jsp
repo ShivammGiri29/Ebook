@@ -1,0 +1,7 @@
+<!-- Footer -->
+<div class="container-fluid text-center text-white p-4 mt-1"
+     style="background-color: #111827;">
+  <h6 class="mb-0">
+    <i class="fa-solid fa-copyright"></i> Design & Developed by Shivam Giri
+  </h6>
+</div>
